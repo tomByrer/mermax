@@ -1,0 +1,1020 @@
+// Bun Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`concurency-xstate.mmd to Object FSM 1`] = `
+{
+  "final": [],
+  "id": "coffee",
+  "initial": "preparing",
+  "isConcurrent": false,
+  "states": {
+    "makingCoffee": null,
+    "noCoffee": null,
+    "preparing": {
+      "final": [],
+      "id": "",
+      "initial": "",
+      "isConcurrent": true,
+      "onDone": "makingCoffee",
+      "onDone~~if: error": "noCoffee",
+      "states": {
+        "boilWater": {
+          "final": [
+            "waterBoiled",
+          ],
+          "id": "boilWater",
+          "initial": "boilingWater",
+          "isConcurrent": false,
+          "states": {
+            "boilingWater": {
+              "WATER_BOILED": "waterBoiled",
+            },
+            "waterBoiled": "final",
+          },
+        },
+        "grindBeans": {
+          "final": [
+            "beansGround",
+          ],
+          "id": "grindBeans",
+          "initial": "grindingBeans",
+          "isConcurrent": false,
+          "states": {
+            "beansGround": "final",
+            "grindingBeans": {
+              "BEANS_GROUND": "beansGround",
+            },
+          },
+        },
+      },
+    },
+  },
+}
+`;
+
+exports[`concurency-xstate.mmd to Xstate 1`] = `
+"import { createMachine } from "xstate";
+
+export const machinecoffee = createMachine({
+	id: "coffee",
+	initial: "preparing",
+	states: {
+		preparing: {
+			id: "",
+			type: "parallel",
+			onDone: [
+				{
+					target: "noCoffee",
+					guard: {
+						type: "error"
+					}
+				},
+				{
+					target: "makingCoffee"
+				}
+			],
+			states: {
+				grindBeans: {
+					id: "grindBeans",
+					initial: "grindingBeans",
+					states: {
+						grindingBeans: {
+							on: {
+								BEANS_GROUND: {
+									target: "beansGround"
+								}
+							}
+						},
+						beansGround: {
+							type: "final"
+						}
+					}
+				},
+				boilWater: {
+					id: "boilWater",
+					initial: "boilingWater",
+					states: {
+						boilingWater: {
+							on: {
+								WATER_BOILED: {
+									target: "waterBoiled"
+								}
+							}
+						},
+						waterBoiled: {
+							type: "final"
+						}
+					}
+				}
+			}
+		},
+		noCoffee: {},
+		makingCoffee: {}
+	}
+},
+{
+	actions: {
+	},
+	actors: {},
+	guards: {
+		error: ({ context, event }, params) => {
+			return false;
+		},
+	},
+	delays: {},
+}
+);
+"
+`;
+
+exports[`mermaid.mmd to Object FSM 1`] = `
+{
+  "final": [
+    "Still",
+    "Crash",
+  ],
+  "id": "mermaidJS state diagram",
+  "initial": "Still",
+  "isConcurrent": false,
+  "states": {
+    "Crash": {
+      "Crash--FINIS": "FINIS",
+    },
+    "FINIS": "final",
+    "Moving": {
+      "Moving--Crash": "Crash",
+      "STOP": "Still",
+    },
+    "Still": {
+      "Still--FINIS": "FINIS",
+      "Still--Moving": "Moving",
+    },
+  },
+}
+`;
+
+exports[`mermaid.mmd to Xstate 1`] = `
+"import { createMachine } from "xstate";
+
+export const machinemermaidJSstatediagram = createMachine({
+	id: "mermaidJS state diagram",
+	initial: "Still",
+	states: {
+		Still: {
+			on: {
+				"Still--Moving": {
+					target: "Moving"
+				},
+				"Still--FINIS": {
+					target: "FINIS"
+				}
+			}
+		},
+		Moving: {
+			on: {
+				STOP: {
+					target: "Still"
+				},
+				"Moving--Crash": {
+					target: "Crash"
+				}
+			}
+		},
+		Crash: {
+			on: {
+				"Crash--FINIS": {
+					target: "FINIS"
+				}
+			}
+		},
+		FINIS: {
+			type: "final"
+		}
+	}
+},
+{
+	actions: {
+	},
+	actors: {},
+	guards: {
+	},
+	delays: {},
+}
+);
+"
+`;
+
+exports[`concurency.mmd to Object FSM 1`] = `
+{
+  "final": [],
+  "id": "Parallel-Concurrency Keyboard",
+  "initial": "Active",
+  "isConcurrent": false,
+  "states": {
+    "Active": {
+      "final": [],
+      "id": "",
+      "initial": "",
+      "isConcurrent": true,
+      "states": {
+        "=Parallel008": {
+          "final": [],
+          "id": "",
+          "initial": "NumLockOff",
+          "isConcurrent": false,
+          "states": {
+            "NumLockOff": {
+              "EvNumLockPressed": "NumLockOn",
+            },
+            "NumLockOn": {
+              "EvNumLockPressed": "NumLockOff",
+            },
+          },
+        },
+        "=Parallel012": {
+          "final": [],
+          "id": "",
+          "initial": "CapsLockOff",
+          "isConcurrent": false,
+          "states": {
+            "CapsLockOff": {
+              "EvCapsLockPressed": "CapsLockOn",
+            },
+            "CapsLockOn": {
+              "EvCapsLockPressed": "CapsLockOff",
+            },
+          },
+        },
+        "=Parallel013": {
+          "final": [],
+          "id": "",
+          "initial": "ScrollLockOff",
+          "isConcurrent": false,
+          "states": {
+            "ScrollLockOff": {
+              "EvScrollLockPressed": "ScrollLockOn",
+            },
+            "ScrollLockOn": {
+              "EvScrollLockPressed": "ScrollLockOff",
+            },
+          },
+        },
+      },
+    },
+  },
+}
+`;
+
+exports[`concurency.mmd to Xstate 1`] = `
+"import { createMachine } from "xstate";
+
+export const machineParallelConcurrencyKeyboard = createMachine({
+	id: "Parallel-Concurrency Keyboard",
+	initial: "Active",
+	states: {
+		Active: {
+			id: "",
+			type: "parallel",
+			onDone: [],
+			states: {
+				"=Parallel008": {
+					id: "",
+					initial: "NumLockOff",
+					states: {
+						NumLockOff: {
+							on: {
+								EvNumLockPressed: {
+									target: "NumLockOn"
+								}
+							}
+						},
+						NumLockOn: {
+							on: {
+								EvNumLockPressed: {
+									target: "NumLockOff"
+								}
+							}
+						}
+					}
+				},
+				"=Parallel012": {
+					id: "",
+					initial: "CapsLockOff",
+					states: {
+						CapsLockOff: {
+							on: {
+								EvCapsLockPressed: {
+									target: "CapsLockOn"
+								}
+							}
+						},
+						CapsLockOn: {
+							on: {
+								EvCapsLockPressed: {
+									target: "CapsLockOff"
+								}
+							}
+						}
+					}
+				},
+				"=Parallel013": {
+					id: "",
+					initial: "ScrollLockOff",
+					states: {
+						ScrollLockOff: {
+							on: {
+								EvScrollLockPressed: {
+									target: "ScrollLockOn"
+								}
+							}
+						},
+						ScrollLockOn: {
+							on: {
+								EvScrollLockPressed: {
+									target: "ScrollLockOff"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+},
+{
+	actions: {
+	},
+	actors: {},
+	guards: {
+	},
+	delays: {},
+}
+);
+"
+`;
+
+exports[`bug.lone-final-outside.mmd to Object FSM 1`] = `
+{
+  "final": [
+    "endRoot",
+  ],
+  "id": "bug-lone-final-outside",
+  "initial": "Inner",
+  "isConcurrent": false,
+  "states": {
+    "Inner": {
+      "final": [
+        "endInner",
+      ],
+      "id": "",
+      "initial": "choose",
+      "isConcurrent": false,
+      "states": {
+        "choose": {
+          "choose--endInner": "endInner",
+          "choose--endRoot": "endRoot",
+        },
+        "endInner": "final",
+      },
+    },
+    "endRoot": "final",
+  },
+}
+`;
+
+exports[`bug.lone-final-outside.mmd to Xstate 1`] = `
+"import { createMachine } from "xstate";
+
+export const machinebuglonefinaloutside = createMachine({
+	id: "bug-lone-final-outside",
+	initial: "Inner",
+	states: {
+		Inner: {
+			id: "",
+			initial: "choose",
+			states: {
+				choose: {
+					on: {
+						"choose--endInner": {
+							target: "endInner"
+						},
+						"choose--endRoot": {
+							target: "endRoot"
+						}
+					}
+				},
+				endInner: {
+					type: "final"
+				}
+			}
+		},
+		endRoot: {
+			type: "final"
+		}
+	}
+},
+{
+	actions: {
+	},
+	actors: {},
+	guards: {
+	},
+	delays: {},
+}
+);
+"
+`;
+
+exports[`fix-events.mmd to Object FSM 1`] = `
+{
+  "final": [
+    "Still",
+    "Wreck",
+  ],
+  "id": "fix-events",
+  "initial": "",
+  "isConcurrent": false,
+  "states": {
+    "FINIS": "final",
+    "Moving": {
+      "CRASH": "Wreck",
+      "STOP": "Still",
+    },
+    "Still": {
+      "CRASH": "Wreck",
+      "Still--FINIS": "FINIS",
+      "Still--Moving": "Moving",
+    },
+    "Wreck": {
+      "Wreck--FINIS": "FINIS",
+      "final": [
+        "Assess",
+      ],
+      "id": "",
+      "initial": "Assess",
+      "isConcurrent": false,
+      "states": {
+        "Assess": {
+          "Assess--FINIS": "FINIS",
+          "Assess--Still": "Still",
+        },
+        "FINIS": "final",
+        "if": null,
+        "isDriveable": null,
+      },
+    },
+    "onDone": null,
+  },
+}
+`;
+
+exports[`fix-events.mmd to Xstate 1`] = `
+"import { createMachine } from "xstate";
+
+export const machinefixevents = createMachine({
+	id: "fix-events",
+	initial: "",
+	states: {
+		Still: {
+			on: {
+				"Still--Moving": {
+					target: "Moving"
+				},
+				CRASH: {
+					target: "Wreck"
+				},
+				"Still--FINIS": {
+					target: "FINIS"
+				}
+			}
+		},
+		Moving: {
+			on: {
+				STOP: {
+					target: "Still"
+				},
+				CRASH: {
+					target: "Wreck"
+				}
+			}
+		},
+		Wreck: {
+			id: "",
+			initial: "Assess",
+			states: {
+				Assess: {
+					on: {
+						"Assess--Still": {
+							target: "Still"
+						},
+						"Assess--FINIS": {
+							target: "FINIS"
+						}
+					}
+				},
+				if: {},
+				isDriveable: {},
+				FINIS: {
+					type: "final"
+				}
+			},
+			on: {
+				"Wreck--FINIS": {
+					target: "FINIS"
+				}
+			}
+		},
+		onDone: {},
+		FINIS: {
+			type: "final"
+		}
+	}
+},
+{
+	actions: {
+	},
+	actors: {},
+	guards: {
+	},
+	delays: {},
+}
+);
+"
+`;
+
+exports[`nested.mmd to Object FSM 1`] = `
+{
+  "final": [
+    "endRoot",
+  ],
+  "id": "nested",
+  "initial": "start",
+  "isConcurrent": false,
+  "states": {
+    "Nested": {
+      "final": [
+        "endNested",
+      ],
+      "id": "",
+      "initial": "firstNested",
+      "isConcurrent": false,
+      "states": {
+        "InnerChild": {
+          "final": [
+            "endInner",
+          ],
+          "id": "",
+          "initial": "inside",
+          "isConcurrent": false,
+          "states": {
+            "DeeperChild": {
+              "final": [
+                "endDeeper",
+              ],
+              "id": "",
+              "initial": "middle",
+              "isConcurrent": false,
+              "states": {
+                "endDeeper": "final",
+                "middle": {
+                  "middle--endDeeper": "endDeeper",
+                  "middle--preParent": "preParent",
+                },
+                "preParent": {
+                  "preParent--endNested": "endNested",
+                },
+              },
+            },
+            "endInner": "final",
+            "inside": {
+              "inside--DeeperChild": "DeeperChild",
+              "inside--endInner": "endInner",
+              "inside--preOutside": "preOutside",
+              "inside--preParent": "preParent",
+            },
+            "preOutside": {
+              "preOutside--endRoot": "endRoot",
+            },
+          },
+        },
+        "endNested": "final",
+        "firstNested": {
+          "firstNested--InnerChild": "InnerChild",
+          "firstNested--endNested": "endNested",
+        },
+      },
+    },
+    "endRoot": "final",
+    "start": {
+      "start--Nested": "Nested",
+    },
+  },
+}
+`;
+
+exports[`nested.mmd to Xstate 1`] = `
+"import { createMachine } from "xstate";
+
+export const machinenested = createMachine({
+	id: "nested",
+	initial: "start",
+	states: {
+		start: {
+			on: {
+				"start--Nested": {
+					target: "Nested"
+				}
+			}
+		},
+		Nested: {
+			id: "",
+			initial: "firstNested",
+			states: {
+				firstNested: {
+					on: {
+						"firstNested--InnerChild": {
+							target: "InnerChild"
+						},
+						"firstNested--endNested": {
+							target: "endNested"
+						}
+					}
+				},
+				InnerChild: {
+					id: "",
+					initial: "inside",
+					states: {
+						inside: {
+							on: {
+								"inside--preOutside": {
+									target: "preOutside"
+								},
+								"inside--preParent": {
+									target: "preParent"
+								},
+								"inside--endInner": {
+									target: "endInner"
+								},
+								"inside--DeeperChild": {
+									target: "DeeperChild"
+								}
+							}
+						},
+						DeeperChild: {
+							id: "",
+							initial: "middle",
+							states: {
+								middle: {
+									on: {
+										"middle--preParent": {
+											target: "preParent"
+										},
+										"middle--endDeeper": {
+											target: "endDeeper"
+										}
+									}
+								},
+								preParent: {
+									on: {
+										"preParent--endNested": {
+											target: "endNested"
+										}
+									}
+								},
+								endDeeper: {
+									type: "final"
+								}
+							}
+						},
+						preOutside: {
+							on: {
+								"preOutside--endRoot": {
+									target: "endRoot"
+								}
+							}
+						},
+						endInner: {
+							type: "final"
+						}
+					}
+				},
+				endNested: {
+					type: "final"
+				}
+			}
+		},
+		endRoot: {
+			type: "final"
+		}
+	}
+},
+{
+	actions: {
+	},
+	actors: {},
+	guards: {
+	},
+	delays: {},
+}
+);
+"
+`;
+
+exports[`newmachine.mmd to Object FSM 1`] = `
+{
+  "final": [],
+  "id": "New Machine redux",
+  "initial": "Initial state",
+  "isConcurrent": false,
+  "states": {
+    "Another state": {
+      "next~~fallback": "Initial state",
+      "next~~if: \"some condition\" , type: track": "Parent state",
+    },
+    "Initial state": {
+      "next": "Another state",
+    },
+    "Parent state": {
+      "back~~action: reset  %%fixme trigger": "Initial State",
+      "final": [],
+      "id": "",
+      "initial": "Child state",
+      "isConcurrent": false,
+      "states": {
+        "Another child state": {
+          "final": [],
+          "id": "",
+          "initial": "",
+          "isConcurrent": false,
+          "states": {},
+        },
+        "Child state": {
+          "final": [],
+          "id": "",
+          "initial": "",
+          "isConcurrent": false,
+          "next": "Another child state",
+          "states": {},
+        },
+      },
+    },
+  },
+}
+`;
+
+exports[`newmachine.mmd to Xstate 1`] = `
+"import { createMachine } from "xstate";
+
+export const machineNewMachineredux = createMachine({
+	id: "New Machine redux",
+	initial: "Initial state",
+	states: {
+		"Initial state": {
+			on: {
+				next: {
+					target: "Another state"
+				}
+			}
+		},
+		"Another state": {
+			on: {
+				next: [
+					{
+						target: "Parent state",
+						guard: {
+							type: "some condition"
+						}
+					},
+					{
+						target: "Initial state"
+					}
+				]
+			}
+		},
+		"Parent state": {
+			id: "",
+			initial: "Child state",
+			states: {
+				"Child state": {
+					id: "",
+					initial: "",
+					states: {},
+					on: {
+						next: {
+							target: "Another child state"
+						}
+					}
+				},
+				"Another child state": {
+					id: "",
+					initial: "",
+					states: {}
+				}
+			},
+			on: {
+				back: {
+					target: "Initial State",
+					actions: {
+						type: "reset"
+					}
+				}
+			}
+		}
+	}
+},
+{
+	actions: {
+		reset: ({ context, event }) => {}
+	},
+	actors: {},
+	guards: {
+		"some condition": ({ context, event }, params) => {
+			return false;
+		},
+	},
+	delays: {},
+}
+);
+"
+`;
+
+exports[`children.mmd to Object FSM 1`] = `
+{
+  "final": [],
+  "id": "children",
+  "initial": "demos",
+  "isConcurrent": false,
+  "states": {
+    "Child": {
+      "final": [
+        "inner",
+      ],
+      "id": "",
+      "initial": "inner",
+      "isConcurrent": false,
+      "states": {
+        "inner": "final",
+      },
+    },
+    "Dual": {
+      "final": [
+        "last",
+      ],
+      "id": "",
+      "initial": "first",
+      "isConcurrent": false,
+      "states": {
+        "first": {
+          "first--last": "last",
+        },
+        "last": "final",
+      },
+    },
+    "Orphan": {
+      "final": [
+        "noInital",
+      ],
+      "id": "",
+      "initial": "",
+      "isConcurrent": false,
+      "states": {
+        "noInital": "final",
+      },
+    },
+    "Siblings": {
+      "final": [],
+      "id": "",
+      "initial": "branches",
+      "isConcurrent": false,
+      "states": {
+        "branches": {
+          "branches--inner": "inner",
+          "branches--last": "last",
+          "branches--noInital": "noInital",
+        },
+      },
+    },
+    "demos": {
+      "demos--introComposite1d": "introComposite1d",
+      "demos--introComposite2d": "introComposite2d",
+      "demos--introComposite3": "introComposite3",
+    },
+    "introComposite1d": {
+      "introComposite1d--Child": "Child",
+    },
+    "introComposite2d": {
+      "introComposite2d--Dual": "Dual",
+    },
+    "introComposite3": {
+      "introComposite3--Siblings": "Siblings",
+    },
+  },
+}
+`;
+
+exports[`children.mmd to Xstate 1`] = `
+"import { createMachine } from "xstate";
+
+export const machinechildren = createMachine({
+	id: "children",
+	initial: "demos",
+	states: {
+		demos: {
+			on: {
+				"demos--introComposite1d": {
+					target: "introComposite1d"
+				},
+				"demos--introComposite2d": {
+					target: "introComposite2d"
+				},
+				"demos--introComposite3": {
+					target: "introComposite3"
+				}
+			}
+		},
+		introComposite1d: {
+			on: {
+				"introComposite1d--Child": {
+					target: "Child"
+				}
+			}
+		},
+		Child: {
+			id: "",
+			initial: "inner",
+			states: {
+				inner: {
+					type: "final"
+				}
+			}
+		},
+		introComposite2d: {
+			on: {
+				"introComposite2d--Dual": {
+					target: "Dual"
+				}
+			}
+		},
+		Dual: {
+			id: "",
+			initial: "first",
+			states: {
+				first: {
+					on: {
+						"first--last": {
+							target: "last"
+						}
+					}
+				},
+				last: {
+					type: "final"
+				}
+			}
+		},
+		introComposite3: {
+			on: {
+				"introComposite3--Siblings": {
+					target: "Siblings"
+				}
+			}
+		},
+		Siblings: {
+			id: "",
+			initial: "branches",
+			states: {
+				branches: {
+					on: {
+						"branches--inner": {
+							target: "inner"
+						},
+						"branches--last": {
+							target: "last"
+						},
+						"branches--noInital": {
+							target: "noInital"
+						}
+					}
+				}
+			}
+		},
+		Orphan: {
+			id: "",
+			initial: "",
+			states: {
+				noInital: {
+					type: "final"
+				}
+			}
+		}
+	}
+},
+{
+	actions: {
+	},
+	actors: {},
+	guards: {
+	},
+	delays: {},
+}
+);
+"
+`;

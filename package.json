@@ -1,0 +1,16 @@
+{
+  "name": "mermex",
+  "version": "0.1.0",
+  "contributors": [
+    "Tom Byrer (https://github.com/tomByrer)"
+  ],
+  "license": "AGPL-3.0-only",
+  "type": "module",
+  "scripts": {
+    "cli": "bun run mermex-cli.js",
+    "test": "bun test",
+    "test-update": "bun test --update-snapshots"
+  },
+  "devDependencies": {},
+  "peerDependencies": {}
+}

@@ -1,0 +1,32 @@
+stateDiagram-v2
+id children
+[*] --> demos
+demos --> introComposite1d
+demos --> introComposite2d
+demos --> introComposite3
+
+%% composite
+introComposite1d --> Child
+state Child {
+[*] --> inner
+inner --> [*]
+}
+
+introComposite2d --> Dual
+state Dual {
+	[*] --> first
+	first --> last
+	last --> [*]
+}
+
+introComposite3 --> Siblings
+state Siblings {
+	[*] --> branches
+	branches --> inner
+	branches --> last
+	branches --> noInital
+}
+
+state Orphan {
+	noInital --> [*]
+}

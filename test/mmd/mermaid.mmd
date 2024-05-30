@@ -1,0 +1,9 @@
+stateDiagram-v2
+id mermaidJS state diagram
+%% inspiration: https://mermaid.js.org/syntax/stateDiagram.html
+[*] --> Still
+Still --> [*]
+Still --> Moving
+Moving --> Still : STOP %% named transition / event
+Moving --> Crash
+Crash --> [*]

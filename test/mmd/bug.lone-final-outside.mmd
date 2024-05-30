@@ -1,0 +1,10 @@
+stateDiagram-v2
+id bug-lone-final-outside
+[*] --> Inner
+state Inner {
+	[*] --> choose
+	choose --> endInner
+	choose --> endRoot
+	endInner --> [*]
+}
+endRoot --> [*]

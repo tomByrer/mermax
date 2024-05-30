@@ -1,0 +1,20 @@
+stateDiagram-v2
+id coffee
+%% https://stately.ai/docs/parallel-states#parallel-ondone-transition
+[*] --> preparing
+
+state preparing {
+	id grindBeans
+	[*] --> grindingBeans
+	grindingBeans --> beansGround : BEANS_GROUND
+	beansGround --> [*]
+	--
+	id boilWater
+	[*] --> boilingWater
+	boilingWater --> waterBoiled : WATER_BOILED
+	waterBoiled --> [*]
+}
+preparing --> noCoffee : onDone %%; if: error
+preparing --> makingCoffee : onDone
+noCoffee
+makingCoffee

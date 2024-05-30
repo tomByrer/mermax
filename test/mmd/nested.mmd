@@ -1,0 +1,28 @@
+stateDiagram-v2
+id nested
+%% [*] --> Nested
+[*] --> start
+start --> Nested
+state Nested {
+	[*] --> firstNested
+	firstNested --> InnerChild
+	state InnerChild {
+		[*] --> inside
+		inside --> preOutside
+		inside --> preParent
+		inside --> endInner
+		inside --> DeeperChild
+		state DeeperChild {
+			[*] --> middle
+			middle --> preParent
+			middle --> endDeeper
+			preParent --> endNested
+			endDeeper --> [*]
+		}
+		preOutside --> endRoot
+		endInner --> [*]
+	}
+	firstNested --> endNested
+	endNested --> [*]
+}
+endRoot --> [*]

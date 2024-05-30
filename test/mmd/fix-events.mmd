@@ -1,0 +1,14 @@
+stateDiagram-v2
+id fix-events
+%% inspiration: https://mermaid.js.org/syntax/stateDiagram.html
+Still --> [*]
+Still --> Moving
+Moving --> Still : STOP %% named transition / event
+Still --> Wreck : CRASH
+Moving --> Wreck : CRASH
+state Wreck {
+	[*] --> Assess
+	Assess --> Still , if: isDriveable
+	Assess --> [*]
+	}
+Wreck --> [*] : onDone

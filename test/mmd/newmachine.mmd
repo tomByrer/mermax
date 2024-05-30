@@ -1,0 +1,17 @@
+stateDiagram-v2
+id New Machine redux
+%% from XState playground default
+%% state "Another state" <<choise>> conditionID
+[*] --> "Initial state"
+"Initial state" --> "Another state" : next
+"Another state" --> "Parent state" : next %%; if: "some condition" , type: track
+"Another state" --> "Initial state" : next %%; fallback
+state "Parent state" {
+ 	[*] --> "Child state"
+	state "Child state" {
+	}
+	"Child state" --> "Another child state" : next  %%fixme inital
+	state "Another child state" {
+	}
+ }
+"Parent state" --> "Initial State" : back %%; action: reset  %%fixme trigger
