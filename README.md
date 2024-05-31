@@ -4,7 +4,7 @@
 
 Instantly* transform your [MermaidJS](https://mermaid.js.org/syntax/stateDiagram.html) into a Finite State Machine / Statechart into actual code you can run in [XState](https://stately.ai/docs/xstate)!  Save time over hand-coding both seperately.
 
-*OK a bit of a strech here; not 'instant', you do have to run this script, taking a few ms of your time.
+*OK a bit of a strech here; not 'instant', you do have to run this script, taking a few ms of your time.  & the output is missing functions, might have some bugs, but gets you 70% of the way there!
 
 ## Example
 
@@ -18,7 +18,7 @@ Instantly* transform your [MermaidJS](https://mermaid.js.org/syntax/stateDiagram
 
 Similar to Markdown, MermaidJS is a simple text format for basic diagrams.
 
-Start & end points are flagged with `[*]`, `%%` preceed comments, and colins `:` flag an event (named transition). 
+Start & end points are flagged with `[*]`, `%%` preceed comments, and colins `:` flag an event (named transition).
 
 Below is a simple example from [MermaidJS docs](https://mermaid.js.org/syntax/stateDiagram.html), used as a source.
 
@@ -70,7 +70,7 @@ If there are no specified named transitions (events) in the Mermaid source, then
 
 Finally, the OSM has been transformed into executable code for [XState](stately.ai).
 
-Note: to create a "final" state for states that have more than one event, a state named "FINIS" is created to be assigned `type: "final"` 
+Note: to create a "final" state for states that have more than one event, a state named "FINIS" is created to be assigned `type: "final"`
 
 ```js ! mermaid.xstate.js
 import { createMachine } from "xstate";
