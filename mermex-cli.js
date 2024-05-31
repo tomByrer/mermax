@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import * as readline from 'node:readline/promises';
+import path from "node:path"
 import { argv, stdin as input, stdout as output } from 'node:process'
 import { mermaidToObject } from "./src/origins/mermaid.js"
 import { xstateObjToxstateJS } from "./src/targets/xstate.js"
@@ -17,10 +18,13 @@ if (!argv[2] || !reFilePath.test(argv[2])){
 		throw new TypeError("Needs well-formed input file path.")
 	}
 	outputPath = await rl.question('Please enter output path (empty/malformed = input path):\n? ')
-	// rl.close;
+} else {
+	cliFilePath = argv[2]
 }
 const inputPathName = cliFilePath.replace(/.mmd$/, '')
-const mermaidText = fs.readFileSync(inputPathName +'.mmd','utf-8')
+const inputFileName = inputPathName +'.mmd'
+console.log('reading: ', inputFileName)
+const mermaidText = fs.readFileSync(inputFileName,'utf-8')
 
 const { filename } = reFileName.exec(inputPathName).groups
 let outputPathName = inputPathName
